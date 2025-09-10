@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/irreal/order-packs/orders"
+	"github.com/irreal/order-packs/web"
 )
 
 // holds the top level dependencies of the app
@@ -52,8 +53,13 @@ func (a *App) Initialize() error {
 	mux := http.NewServeMux()
 
 	// API endpoints
-	mux.HandleFunc("/health", a.handleHealth)
-	mux.HandleFunc("POST /orders", a.handleCreateOrder)
+	mux.HandleFunc("/healthz", a.handleHealth)
+	mux.HandleFunc("POST /api/orders", a.handleCreateOrder)
+
+	// Web endpoints
+	mux.HandleFunc("/", a.handleHomePage)
+	// Static files
+	web.SetupStatic(mux)
 
 	port := "13131"
 	portString := a.configGetter("PORT")

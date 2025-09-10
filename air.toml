@@ -5,10 +5,11 @@ tmp_dir = "tmp"
 [build]
 args_bin = []
 bin = "./tmp/main"
-cmd = "go build -o ./tmp/main ./main.go"
+cmd = "templ generate && /usr/tailwindcss -i ./web/input.css -o ./web/static/styles.css  && go build -o ./tmp/main ./main.go"
 delay = 0
-include_ext = ["go"]
+include_ext = ["go", "templ"]
 exclude_unchanged = false
+exclude_regex = [".*_templ.go"]
 follow_symlink = false
 full_bin = ""
 include_dir = []
