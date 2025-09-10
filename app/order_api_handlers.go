@@ -18,7 +18,13 @@ func (a *App) handleCreateOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	order, err := a.orderService.CreateOrder(orderRequest, []models.Pack{250, 500, 1000, 2000, 5000})
+	packs, err := a.packsService.GetPacks()
+	if err != nil {
+		utils.WriteAPIErrorResponse(w, http.StatusInternalServerError, "internal server error")
+		return
+	}
+
+	order, err := a.orderService.CreateOrder(orderRequest, packs)
 	if err != nil {
 		fmt.Fprintf(a.stderr, "error creating order: %v\n", err)
 
@@ -32,4 +38,13 @@ func (a *App) handleCreateOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteAPISuccessResponse(w, order)
+}
+
+func (a *App) handleGetLast10Orders(w http.ResponseWriter, r *http.Request) {
+	orders, err := a.orderService.GetLast10Orders()
+	if err != nil {
+		utils.WriteAPIErrorResponse(w, http.StatusInternalServerError, "internal server error")
+		return
+	}
+	utils.WriteAPISuccessResponse(w, orders)
 }

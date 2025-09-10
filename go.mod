@@ -6,4 +6,5 @@ require (
 	github.com/a-h/templ v0.3.943 // indirect
 	github.com/goforj/godump v1.6.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/mattn/go-sqlite3 v1.14.32 // indirect
 )

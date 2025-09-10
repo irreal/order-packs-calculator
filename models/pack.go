@@ -10,3 +10,5 @@ package models
 // However, here we will declare a pack to be an int, as we only care about it's size,
 // and it makes it less awkward than a struct with a single field for primary key purposes such storing in maps
 type Pack int
+
+type Packs []Pack

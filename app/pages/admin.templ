@@ -1,0 +1,314 @@
+package pages
+
+import (
+	"github.com/irreal/order-packs/models"
+	"github.com/irreal/order-packs/web"
+)
+
+templ AdminPage(packs models.Packs, success bool) {
+	@web.BaseLayout(adminPage(packs, success))
+}
+
+templ adminPage(packs models.Packs, success bool) {
+	<!-- Header Section -->
+	<div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-16">
+		<div class="container mx-auto px-4 text-center">
+			<div class="text-8xl mb-6 animate-bounce">🎛️</div>
+			<h1 class="text-5xl font-bold mb-4">Balloon Pack Admin Center</h1>
+			<p class="text-xl opacity-90">Managing balloon packs with style and whimsy!</p>
+			<div class="mt-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg inline-block">
+				<span class="text-sm font-medium">🔓 No auth required - we trust you! (This is a toy project for a job application, anyone can feel free to edit packs)</span>
+			</div>
+			<div class="mt-6">
+				<a href="/order" class="btn btn-outline btn-lg border-white text-white hover:bg-white hover:text-purple-600 hover:shadow-lg transform hover:scale-105 transition-all">
+					🛒 Back to Order Page
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Success Message -->
+	if success {
+		<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mx-4 my-4" role="alert">
+			<div class="container mx-auto px-4">
+				<div class="flex items-center justify-center">
+					<span class="text-2xl mr-3">🎉</span>
+					<div>
+						<strong class="font-bold">Success!</strong>
+						<span class="block sm:inline"> Pack configuration updated successfully! 🎈</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	<!-- Pack Management Form Section -->
+	<div class="bg-gradient-to-br from-purple-50 to-pink-50 py-16">
+		<div class="container mx-auto px-4">
+			<div class="text-center mb-12">
+				<div class="text-6xl mb-6 animate-spin" style="animation-duration: 4s;">⚙️</div>
+				<h2 class="text-4xl font-bold text-gray-800 mb-4">Manage Pack Sizes</h2>
+				<p class="text-xl text-gray-600">View current packs and add new balloon pack sizes</p>
+			</div>
+			
+			<div class="max-w-4xl mx-auto">
+				<div class="card bg-white shadow-2xl border-2 border-purple-200">
+					<div class="card-body">
+						<form id="adminForm" class="space-y-8" action="/admin" method="post">
+							<!-- Hidden inputs for all current packs (will be managed by JavaScript) -->
+							<div id="packInputs"></div>
+							
+							<!-- Current Packs Display -->
+							<div>
+								<h3 class="text-2xl font-bold text-center mb-6 text-purple-600">
+									📦 Current Pack Sizes
+								</h3>
+								<div class="max-w-6xl mx-auto mb-6">
+									<div id="packsDisplay" class="flex flex-wrap justify-center gap-4 mb-4">
+										<!-- Packs will be dynamically populated here -->
+									</div>
+									<div id="emptyState" class="text-center text-gray-500 mb-4" style="display: none;">
+										<div class="text-4xl mb-2">📭</div>
+										<p class="text-lg">No pack sizes configured yet. Add some below!</p>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Add New Pack Section -->
+							<div>
+								<h3 class="text-2xl font-bold text-center mb-6 text-purple-600">
+									➕ Add New Pack Size
+								</h3>
+								<div class="form-control">
+									<label class="label">
+										<span class="label-text text-lg font-medium">New pack size (number of balloons)</span>
+									</label>
+									<div class="input-group justify-center text-center p-4">
+										<input type="number" id="newPackSize" placeholder="Enter pack size..." class="input input-bordered input-lg w-full max-w-xs text-center text-2xl font-bold" min="1" max="1000000"/>
+									</div>
+									<label class="label">
+										<span class="label-text-alt text-gray-500">Enter a positive number for the new pack size</span>
+									</label>
+								</div>
+								<div class="text-center mt-4">
+									<button type="button" id="addPackBtn" class="btn btn-secondary btn-md">
+										<span class="text-xl mr-2">➕</span>
+										Add to List
+									</button>
+								</div>
+							</div>
+
+							<!-- Quick Add Buttons -->
+							<div>
+								<h3 class="text-2xl font-bold text-center mb-6 text-purple-600">
+									⚡ Quick Add Popular Sizes
+								</h3>
+								<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+									<button type="button" class="quick-add-btn btn btn-outline btn-secondary btn-lg p-6 flex flex-col items-center justify-center hover:scale-105 transform transition-all" data-size="100">
+										<span class="font-bold">100</span>
+										<span class="text-xs">Mini Pack</span>
+									</button>
+									<button type="button" class="quick-add-btn btn btn-outline btn-secondary btn-lg p-6 flex flex-col items-center justify-center hover:scale-105 transform transition-all" data-size="250">
+										<span class="font-bold">250</span>
+										<span class="text-xs">Less Mini Pack</span>
+									</button>
+									<button type="button" class="quick-add-btn btn btn-outline btn-secondary btn-lg p-6 flex flex-col items-center justify-center hover:scale-105 transform transition-all" data-size="500">
+										<span class="font-bold">500</span>
+										<span class="text-xs">Party Pack</span>
+									</button>
+									<button type="button" class="quick-add-btn btn btn-outline btn-secondary btn-lg p-6 flex flex-col items-center justify-center hover:scale-105 transform transition-all" data-size="1000">
+										<span class="font-bold">1000</span>
+										<span class="text-xs">Event Pack</span>
+									</button>
+									<button type="button" class="quick-add-btn btn btn-outline btn-secondary btn-lg p-6 flex flex-col items-center justify-center hover:scale-105 transform transition-all" data-size="2500">
+										<span class="font-bold">2500</span>
+										<span class="text-xs">Mega Pack</span>
+									</button>
+								</div>
+							</div>
+
+							<!-- Submit Button -->
+							<div class="text-center">
+								<button type="submit" id="submitPack" class="btn btn-primary btn-lg text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+									<span class="text-2xl mr-2">💾</span>
+									Save Pack Configuration
+									<span class="text-2xl ml-2 animate-bounce">⚙️</span>
+								</button>
+								<p class="text-sm text-gray-500 mt-4">
+									* New pack sizes will be available immediately for customers to order
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    @templ.JSONScript("packs", packs)
+	<script>
+        // Interactive admin form functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const quickAddButtons = document.querySelectorAll('.quick-add-btn');
+            const newPackSizeInput = document.getElementById('newPackSize');
+            const addPackBtn = document.getElementById('addPackBtn');
+            const packsDisplay = document.getElementById('packsDisplay');
+            const emptyState = document.getElementById('emptyState');
+            const packInputsContainer = document.getElementById('packInputs');
+            
+            // Initialize with server-provided packs
+            let currentPacks = JSON.parse(document.getElementById('packs').textContent);
+            
+            function getPackIcon(size) {
+                if (size <= 500) return '🎈';
+                if (size <= 1000) return '🎈🎈';
+                if (size <= 2000) return '🎈🎈🎈';
+                return '🎈🎈🎈🎈';
+            }
+            
+            function getPackLabel(size) {
+                if (size <= 500) return 'Party';
+                if (size <= 1000) return 'Event';
+                if (size <= 2000) return 'Mega';
+                return 'Ultimate';
+            }
+            
+            function renderPacks() {
+                // Sort packs numerically
+                currentPacks.sort((a, b) => parseInt(a) - parseInt(b));
+                
+                // Clear display
+                packsDisplay.innerHTML = '';
+                packInputsContainer.innerHTML = '';
+                
+                if (currentPacks.length === 0) {
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                emptyState.style.display = 'none';
+                
+                // Render pack badges
+                currentPacks.forEach((pack, index) => {
+                    const size = parseInt(pack);
+                    
+                    // Create display badge
+                    const badge = document.createElement('div');
+                    badge.className = 'badge badge-lg bg-gradient-to-r from-blue-400 to-purple-500 text-white p-4 shadow-lg transform hover:scale-105 transition-all relative group';
+                    badge.innerHTML = `
+                        <span class="text-lg mr-2">${getPackIcon(size)}</span>
+                        <span class="font-bold text-lg">${size}</span>
+                        <span class="text-sm ml-2 opacity-90">${getPackLabel(size)}</span>
+                        <button type="button" class="ml-2 text-red-300 hover:text-red-100 font-bold opacity-0 group-hover:opacity-100 transition-opacity" onclick="removePack(${index})">×</button>
+                    `;
+                    packsDisplay.appendChild(badge);
+                    
+                    // Create hidden input
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'packs';
+                    input.value = pack;
+                    packInputsContainer.appendChild(input);
+                });
+            }
+            
+            // Global function to remove pack
+            window.removePack = function(index) {
+                currentPacks.splice(index, 1);
+                renderPacks();
+            };
+            
+            function addPack(size) {
+                const sizeStr = size.toString();
+                if (currentPacks.includes(sizeStr)) {
+                    alert('This pack size already exists!');
+                    return false;
+                }
+                currentPacks.push(sizeStr);
+                renderPacks();
+                return true;
+            }
+            
+            // Handle quick add buttons
+            quickAddButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const size = parseInt(this.dataset.size);
+                    if (addPack(size)) {
+                        newPackSizeInput.value = '';
+                        // Reset visual state
+                        quickAddButtons.forEach(btn => {
+                            btn.classList.remove('btn-secondary');
+                            btn.classList.add('btn-outline');
+                        });
+                    }
+                });
+            });
+            
+            // Handle add pack button
+            addPackBtn.addEventListener('click', function() {
+                const size = parseInt(newPackSizeInput.value) || 0;
+                if (size <= 0) {
+                    alert('Please enter a valid pack size (greater than 0)!');
+                    return;
+                }
+                if (addPack(size)) {
+                    newPackSizeInput.value = '';
+                    // Reset quick add buttons
+                    quickAddButtons.forEach(btn => {
+                        btn.classList.remove('btn-secondary');
+                        btn.classList.add('btn-outline');
+                    });
+                }
+            });
+            
+            // Handle Enter key in input
+            newPackSizeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addPackBtn.click();
+                }
+            });
+
+            // Handle quick add buttons visual feedback
+            quickAddButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Visual feedback
+                    this.classList.add('btn-secondary');
+                    this.classList.remove('btn-outline');
+                    
+                    // Reset other buttons
+                    quickAddButtons.forEach(btn => {
+                        if (btn !== this) {
+                            btn.classList.remove('btn-secondary');
+                            btn.classList.add('btn-outline');
+                        }
+                    });
+                    
+                    // Set input value
+                    newPackSizeInput.value = this.dataset.size;
+                });
+            });
+
+            // Reset quick add buttons when typing in input
+            newPackSizeInput.addEventListener('input', function() {
+                quickAddButtons.forEach(btn => {
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-outline');
+                });
+            });
+
+            // Handle form submission
+            document.getElementById('adminForm').addEventListener('submit', function(e) {
+                if (currentPacks.length === 0) {
+                    e.preventDefault();
+                    alert('Please add at least one pack size!');
+                    return;
+                }
+                // Form will submit with all current packs as hidden inputs
+            });
+            
+            // Initial render
+            renderPacks();
+        });
+    </script>
+}
