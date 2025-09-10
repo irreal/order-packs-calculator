@@ -7,6 +7,11 @@ I have implemented the solution in steps, from solving the core algorithm, to in
 
 You can check the commit history to trace step by step how the solution was developed.
 
+## Hosting
+
+the app is hosted on fly.io at `https://www.i-want-to-work-at-re-partners.com`
+It is hosted on fly.io and it uses a production Dockerfile at `./Dokcerfile.prod` to build the go code and serve on fly.
+
 ## Setup Instructions
 
 First step is to clone this repo.
@@ -26,6 +31,8 @@ this will run the development app in a background container and load up logs so 
 
 when you quit logs using `q`, the app continues to run in the background.
 Stop the app by running `$ docker compose stop` or `$ docker compose down` to also destroy the containers
+
+#### NOTE: the Dockerfile in docker-compose.yml is for development and it installs a bunch of dev time tools and sets up auto reloading. The production Dockerfile does not need any of that, it just compiles a single go binary and runs that. Check out Dockerfile.prod
 
 ### Running locally
 
