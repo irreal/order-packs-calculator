@@ -13,7 +13,9 @@ func main() {
 
 	packs := []models.Pack{250, 500, 1000, 2000, 5000}
 
-	solution, err := orders.CalculatePack(packs, 12001)
+	service := orders.NewService(1000000000)
+	order, err := service.CreateOrder(models.OrderRequest{ItemCount: 12001}, packs)
+
 	godump.Dump(err)
-	godump.Dump(solution)
+	godump.Dump(order)
 }

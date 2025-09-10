@@ -19,6 +19,7 @@ const (
 
 type Order struct {
 	RequestedItemCount int
-	Packs              []Pack
+	ShippedItemCount   int
+	Packs              map[Pack]int
 	Status             OrderStatus
 }

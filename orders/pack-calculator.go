@@ -20,6 +20,9 @@ type PackingCalculation struct {
 // 2. Within the constraints of Rule 1 above, send out the least amount of items to fulfil the order.
 // 3. Within the constraints of Rules 1 & 2 above, send out as few packs as possible to fulfil each order.
 // note: rule 2 takes precedence over rule 3
+//
+// Package Calculator only does basic validation to be able to do the calculation.
+// Things such as max allowed requestedCount are handled at business level by the service
 func CalculatePack(availablePacks []models.Pack, requestedCount int) (*PackingCalculation, error) {
 	if requestedCount <= 0 {
 		return nil, fmt.Errorf("requested count must be greater than 0")
