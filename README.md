@@ -55,6 +55,21 @@ now run:
 
 and off you go, reloading will happen upon any changes in .env or the .go files
 
+## Testing
+
+You can run all unit tests in either docker or locally, depending on how you setup the project.
+
+### Local
+
+```bash
+go test ./... -v
+```
+
+### Docker
+
+```bash
+docker compose exec app go test ./... -v
+```
 
 ## Usage
 
