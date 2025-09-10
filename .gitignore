@@ -24,6 +24,8 @@ go.work.sum
 # env file
 .env
 
+data/
+
 
 # node_modules for tailwind and daisyui, intentionally included in repo as they are small and required to run tailwind without installing npm/node in container or on local machine
 !web/node_modules/
