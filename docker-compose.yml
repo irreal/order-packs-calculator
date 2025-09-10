@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./:/usr/src/app:cached
+      - $PWD:$PWD
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 13131:13131
