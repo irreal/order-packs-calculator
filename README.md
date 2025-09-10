@@ -2,11 +2,10 @@
 
 This project is an implementation of the take home task when applying to re-partners for a senior go lang position.
 
+I have implemented the solution in steps, from solving the core algorithm, to introducing models, architecture, then implementing the HTTP API, improving DX (hot reload, docker compose), adding persistance using sqlite and finally I added a nice looking web UI. the styling for the UI and some of the content was llm generated.
+**AI was used only on some of the presentational stuff to pick fun colors, add style and write copy text. No ai was used for the Go code or the setup of the project at all**
 
-I have implemented the solution in steps, from solving the core algorithm, to introducing models, architecture, then implementing the HTTP API, improving DX (hot reload, docker compose).
-
-Next steps are to implement the UI using Templ, Tailwind and DaisyUI,
-as well as add persistance using sqlite.
+You can check the commit history to trace step by step how the solution was developed.
 
 ## Setup Instructions
 
@@ -17,7 +16,7 @@ After cloning, copy .env.example into .env and adjust settings as needed
 ### Running with docker
 
 docker-compose.yml is setup for local development
-nothing extra is needed, you can be as simple as `docker compose up`
+nothing extra is needed, you can be as simple as `$ docker compose up`
 
 however, for optimal dev experience, consider running:
 
@@ -48,3 +47,34 @@ now run:
 `$ air`
 
 and off you go, reloading will happen upon any changes in .env or the .go files
+
+
+## Usage
+
+You can use the app as an API or through the Web UI.
+
+### API
+
+API routes are:
+* `GET /api/orders` to get the last 10 orders
+* `GET /api/packs` to get the currently used packs
+* `POST /api/orders` to create a new order, sample payload: 
+
+```json
+{
+  "itemCount": 3
+}
+```
+
+* `POST /api/packs` to change packs in use, sampel payload:
+
+```json
+{
+  "packs":[1,2,3]
+}
+```
+
+### Web
+
+On the web, simply navigate to the page and click around.
+Start by visting `http://localhost:13131/`
