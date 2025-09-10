@@ -4,7 +4,7 @@ package models
 // but in a real world app we might need to model the request with more details
 // and it warrants introducing it here, rather than like a DTO on the http handler level
 type OrderRequest struct {
-	ItemCount int
+	ItemCount int `json:"itemCount"`
 }
 
 // Not really needed for the task, but an example to support a more realistic UI
@@ -18,8 +18,8 @@ const (
 )
 
 type Order struct {
-	RequestedItemCount int
-	ShippedItemCount   int
-	Packs              map[Pack]int
-	Status             OrderStatus
+	RequestedItemCount int          `json:"requestedItemCount"`
+	ShippedItemCount   int          `json:"shippedItemCount"`
+	Packs              map[Pack]int `json:"packs"`
+	Status             OrderStatus  `json:"status"`
 }
