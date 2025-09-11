@@ -13,6 +13,7 @@
     --color-red-300: oklch(80.8% 0.114 19.571);
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
+    --color-red-700: oklch(50.5% 0.213 27.518);
     --color-yellow-200: oklch(94.5% 0.129 101.54);
     --color-yellow-800: oklch(47.6% 0.114 61.907);
     --color-green-100: oklch(96.2% 0.044 156.743);
@@ -68,6 +69,7 @@
     --text-9xl: 8rem;
     --text-9xl--line-height: 1;
     --font-weight-medium: 500;
+    --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --radius-lg: 0.5rem;
     --animate-spin: spin 1s linear infinite;
@@ -1958,6 +1960,9 @@
   .absolute {
     position: absolute;
   }
+  .fixed\! {
+    position: fixed !important;
+  }
   .relative {
     position: relative;
   }
@@ -2802,6 +2807,9 @@
   .border-red-200 {
     border-color: var(--color-red-200);
   }
+  .border-red-500 {
+    border-color: var(--color-red-500);
+  }
   .border-rose-200 {
     border-color: var(--color-rose-200);
   }
@@ -2998,6 +3006,10 @@
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
   }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
   .text-gray-500 {
     color: var(--color-gray-500);
   }
@@ -3022,8 +3034,14 @@
   .text-red-300 {
     color: var(--color-red-300);
   }
+  .text-red-500 {
+    color: var(--color-red-500);
+  }
   .text-red-600 {
     color: var(--color-red-600);
+  }
+  .text-red-700 {
+    color: var(--color-red-700);
   }
   .text-transparent {
     color: transparent;
@@ -3033,6 +3051,9 @@
   }
   .text-yellow-800 {
     color: var(--color-yellow-800);
+  }
+  .italic {
+    font-style: italic;
   }
   .underline {
     text-decoration-line: underline;
@@ -3120,6 +3141,10 @@
     --badge-color: var(--color-success);
     --badge-fg: var(--color-success-content);
   }
+  .badge-warning {
+    --badge-color: var(--color-warning);
+    --badge-fg: var(--color-warning-content);
+  }
   .btn-primary {
     --btn-color: var(--color-primary);
     --btn-fg: var(--color-primary-content);
@@ -3142,6 +3167,13 @@
         --tw-scale-y: 105%;
         --tw-scale-z: 105%;
         scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
+  .hover\:bg-red-500 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-red-500);
       }
     }
   }
@@ -3170,6 +3202,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-red-600);
+      }
+    }
+  }
+  .hover\:text-white {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-white);
       }
     }
   }

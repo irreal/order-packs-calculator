@@ -13,7 +13,7 @@ func (a *App) handleAdminPageGet(w http.ResponseWriter, r *http.Request) {
 
 	packs, err := a.packsService.GetPacks()
 	if err != nil {
-		http.Error(w, "Failed to get packs", http.StatusInternalServerError)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 
@@ -24,13 +24,13 @@ func (a *App) handleAdminPageGet(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) handleAdminPageSetPacks(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 
 	packValues := r.Form["packs"]
 	if len(packValues) == 0 {
-		http.Error(w, "At least one pack is required", http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage("At least one pack is required"))
 		return
 	}
 
@@ -39,7 +39,7 @@ func (a *App) handleAdminPageSetPacks(w http.ResponseWriter, r *http.Request) {
 	for _, packStr := range packValues {
 		packSize, err := strconv.Atoi(packStr)
 		if err != nil || packSize <= 0 {
-			http.Error(w, "Invalid pack size: "+packStr, http.StatusBadRequest)
+			utils.Render(w, r, pages.ErrorPage("Invalid pack size: "+packStr))
 			return
 		}
 		newPacks = append(newPacks, models.Pack(packSize))
@@ -47,7 +47,7 @@ func (a *App) handleAdminPageSetPacks(w http.ResponseWriter, r *http.Request) {
 
 	// persist to repo
 	if err := a.packsService.SavePacks(newPacks); err != nil {
-		http.Error(w, "Failed to save packs", http.StatusInternalServerError)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 

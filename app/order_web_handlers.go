@@ -12,12 +12,14 @@ import (
 func (a *App) handleOrderPage(w http.ResponseWriter, r *http.Request) {
 	orders, err := a.orderService.GetLast10Orders()
 	if err != nil {
-		//render error page
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
+		return
 	}
 
 	packs, err := a.packsService.GetPacks()
 	if err != nil {
-		//render error page
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
+		return
 	}
 
 	maxCount := int32(a.orderService.MaxOrderItemCount)
@@ -29,19 +31,19 @@ func (a *App) handleOrderPage(w http.ResponseWriter, r *http.Request) {
 func (a *App) handleCreateOrderWeb(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 
 	amountStr := r.Form.Get("amount")
 	if amountStr == "" {
-		http.Error(w, "Amount is required", http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage("Amount is required"))
 		return
 	}
 
 	amount, err := strconv.Atoi(amountStr)
 	if err != nil {
-		http.Error(w, "Invalid amount format", http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage("Invalid amount format"))
 		return
 	}
 
@@ -51,13 +53,13 @@ func (a *App) handleCreateOrderWeb(w http.ResponseWriter, r *http.Request) {
 
 	packs, err := a.packsService.GetPacks()
 	if err != nil {
-		http.Error(w, "Failed to get available packs", http.StatusInternalServerError)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 
 	_, err = a.orderService.CreateOrder(orderRequest, packs)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		utils.Render(w, r, pages.ErrorPage(err.Error()))
 		return
 	}
 
